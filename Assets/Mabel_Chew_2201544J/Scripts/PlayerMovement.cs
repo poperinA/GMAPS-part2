@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
   
     private Vector3 currentGravityDir;
-    private float bwRotateSpeed = 0.1f;
+    
 
     // Start is called before the first frame update
     void Start()
