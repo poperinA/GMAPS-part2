@@ -474,6 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2ce046367389c4f8baf8267f6b0720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravitySwitch: {fileID: 671351699}
 --- !u!54 &671351697
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -496,10 +497,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &671351698
 CapsuleCollider:
@@ -536,11 +537,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2349c7d63d3b3b448aa7d558e53494c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 671351695}
   gravityDir:
   - {x: 0, y: -9.81, z: 0}
   - {x: 0, y: 9.81, z: 0}
   - {x: -9.81, y: 0, z: 0}
   - {x: 9.81, y: 0, z: 0}
+  gravityDirIndex: 0
 --- !u!1 &993028497
 GameObject:
   m_ObjectHideFlags: 0
