@@ -10,9 +10,6 @@ public class GravitySwitch : MonoBehaviour
     //array of vectors with different directions of gravity implemented
     public Vector3[] gravityDir = { Vector3.down, Vector3.up, Vector3.right, Vector3.left };
     public int gravityDirIndex = 0;
-
-    public Vector3 currentGravityDir;
-    public Vector3 newGravityDir;
     
 
     void Start()
@@ -50,7 +47,31 @@ public class GravitySwitch : MonoBehaviour
         RotateDir(-Physics.gravity.normalized);
 
         //implement a rotation during the switching
+        StartCoroutine(RotateToGravity(-Physics.gravity.normalized, 1f));
 
+    }
+
+    IEnumerator RotateToGravity(Vector3 targetDirection, float duration)
+    {
+        //start rotation of the capsule
+        Quaternion startRotation = transform.rotation;
+        //target rotation of the capsule
+        Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, targetDirection);
+
+        float timeElapsed = 0f;
+        float totalLerpTime = 2f;
+
+        while (timeElapsed < totalLerpTime)
+        {
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / totalLerpTime);
+
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        // Ensure the final rotation is exactly the target rotation
+        transform.rotation = targetRotation;
+        
     }
 
     public void RotateDir(Vector3 gravityDir)
