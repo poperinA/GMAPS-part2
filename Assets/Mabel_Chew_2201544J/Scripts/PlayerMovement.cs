@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     float speed = 2f;
-    float rotateSpeed = 5f;
+    float rotateSpeed = 3f;
     float height = 0.5f;
 
     float vertical;
@@ -22,9 +22,11 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 moveDirNorm;
     private Vector3 changeMovement;
+    private Vector3 localChangeMovement;
     private Vector3 velocity;
   
     private Vector3 currentGravityDir;
+    private float bwRotateSpeed = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
         //get the current gravity direction
         currentGravityDir = gravitySwitch.gravityDir[gravitySwitch.gravityDirIndex];
+
 
         //gravity force
         rb.AddForce(currentGravityDir * gravityStrength, ForceMode.Acceleration);
@@ -64,15 +67,18 @@ public class PlayerMovement : MonoBehaviour
         //movement direction
         moveDir = new Vector3(horizontal, 0f, vertical);
 
-        //normalised direction
+        //normalised movement direction
         moveDirNorm = moveDir.normalized;
 
         //transform the movement direction to align to the current gravity direction
         changeMovement = Quaternion.FromToRotation(-Physics.gravity, -currentGravityDir) * moveDirNorm;
-        
+
+        //TransformDirection -> ignores the position of transform, but considers rotations applied to transform to point in the local "correct" position
+        //Without it, eg. Vectors3.left will be pointing in the usual direction of the vector (negative x-axis direction)
+        localChangeMovement = transform.TransformDirection(changeMovement);
 
         //velocity vector
-        velocity = changeMovement * speed;
+        velocity = localChangeMovement * speed;
 
         //velocity force
         rb.AddForce(velocity, ForceMode.VelocityChange);
@@ -81,11 +87,19 @@ public class PlayerMovement : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             //updates the direction to look at
-            Quaternion rotateTo = Quaternion.LookRotation(changeMovement, -currentGravityDir);
+            Quaternion rotateTo = Quaternion.LookRotation(localChangeMovement, -currentGravityDir);
 
             //updates the rotation of the capsule (for looking in the moving direction)
             //use slerp for a smoother rotation between 2 points
             transform.rotation = Quaternion.Slerp(transform.rotation, rotateTo, Time.deltaTime * rotateSpeed);
+        }
+
+        if (vertical < 0)
+        {
+            //updates the backwards direction to look at
+            Quaternion backwardRotation = Quaternion.LookRotation(-localChangeMovement, -currentGravityDir);
+            transform.rotation = backwardRotation;
+
         }
     }
 

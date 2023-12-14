@@ -43,11 +43,13 @@ public class GravitySwitch : MonoBehaviour
         //set the new gravity direction
         Physics.gravity = gravityDir[gravityDirIndex];
 
-        //rotate the player 
-        RotateDir(-Physics.gravity.normalized);
+        
 
         //implement a rotation during the switching
-        StartCoroutine(RotateToGravity(-Physics.gravity.normalized, 1f));
+        StartCoroutine(RotateToGravity(-Physics.gravity.normalized, 5f));
+        
+        //rotate the player 
+        //RotateDir(-Physics.gravity.normalized);
 
     }
 
@@ -59,7 +61,7 @@ public class GravitySwitch : MonoBehaviour
         Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, targetDirection);
 
         float timeElapsed = 0f;
-        float totalLerpTime = 2f;
+        float totalLerpTime = 1f;
 
         while (timeElapsed < totalLerpTime)
         {
