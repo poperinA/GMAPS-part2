@@ -10,11 +10,13 @@ public class GravitySwitch : MonoBehaviour
     //array of vectors with different directions of gravity implemented
     public Vector3[] gravityDir = { Vector3.down, Vector3.up, Vector3.right, Vector3.left };
     public int gravityDirIndex = 0;
-    
 
+    float gravityStrength = 9.81f;
+    public float maxGravityStrength = 20f;
+    public float gravityChangeDuration = 20f;
     void Start()
     {
-        
+        SetGravityStrength(gravityStrength);
     }
     // Update is called once per frame
     void Update()
@@ -85,6 +87,32 @@ public class GravitySwitch : MonoBehaviour
         //cross product of the gravity direction and the world up direction
         Vector3 forwardDir = Vector3.Cross(gravityDir, Vector3.up);
         transform.forward = forwardDir;
+    }
+
+    public IEnumerator ChangeGravityStrength(float targetStrength, float duration)
+    {
+        float initialStrength = Physics.gravity.magnitude;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            float currentStrength = Mathf.Lerp(initialStrength, targetStrength, timeElapsed / duration);
+            SetGravityStrength(currentStrength);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        SetGravityStrength(targetStrength);
+    }
+
+    public void SetGravityStrength(float strength)
+    {
+        Physics.gravity = gravityDir[gravityDirIndex].normalized * strength;
+    }
+
+    public float GetGravityStrength()
+    {
+        return Physics.gravity.magnitude;
     }
 
 }
