@@ -51,12 +51,12 @@ public class PlayerMovement : MonoBehaviour
 
 
         //checks for input and capsule is touching the ground
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            Debug.Log("space is pressed");
-            Jump();
-            StopCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
-        }
+        //if (Input.GetButtonDown("Jump") && IsGrounded())
+        //    {
+        //        Debug.Log("space is pressed");
+        //        Jump();
+        //        StopCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
+        //    }
 
 
     }

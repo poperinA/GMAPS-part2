@@ -89,30 +89,4 @@ public class GravitySwitch : MonoBehaviour
         transform.forward = forwardDir;
     }
 
-    //public IEnumerator ChangeGravityStrength(float targetStrength, float duration)
-    //{
-    //    float initialStrength = Physics.gravity.magnitude;
-    //    float timeElapsed = 0f;
-
-    //    while (timeElapsed < duration)
-    //    {
-    //        float currentStrength = Mathf.Lerp(initialStrength, targetStrength, timeElapsed / duration);
-    //        SetGravityStrength(currentStrength);
-    //        timeElapsed += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    SetGravityStrength(targetStrength);
-    //}
-
-    //public void SetGravityStrength(float strength)
-    //{
-    //    Physics.gravity = gravityDir[gravityDirIndex].normalized * strength;
-    //}
-
-    //public float GetGravityStrength()
-    //{
-    //    return Physics.gravity.magnitude;
-    //}
-
 }
