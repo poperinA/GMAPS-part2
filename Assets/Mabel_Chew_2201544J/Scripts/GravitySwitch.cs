@@ -11,12 +11,12 @@ public class GravitySwitch : MonoBehaviour
     public Vector3[] gravityDir = { Vector3.down, Vector3.up, Vector3.right, Vector3.left };
     public int gravityDirIndex = 0;
 
-    float gravityStrength = 9.81f;
-    public float maxGravityStrength = 20f;
-    public float gravityChangeDuration = 20f;
+    //public float gravityStrength = 9.81f;
+    //public float maxGravityStrength = 20f;
+    //public float gravityChangeDuration = 20f;
     void Start()
     {
-        SetGravityStrength(gravityStrength);
+        //SetGravityStrength(gravityStrength);
     }
     // Update is called once per frame
     void Update()
@@ -89,30 +89,30 @@ public class GravitySwitch : MonoBehaviour
         transform.forward = forwardDir;
     }
 
-    public IEnumerator ChangeGravityStrength(float targetStrength, float duration)
-    {
-        float initialStrength = Physics.gravity.magnitude;
-        float timeElapsed = 0f;
+    //public IEnumerator ChangeGravityStrength(float targetStrength, float duration)
+    //{
+    //    float initialStrength = Physics.gravity.magnitude;
+    //    float timeElapsed = 0f;
 
-        while (timeElapsed < duration)
-        {
-            float currentStrength = Mathf.Lerp(initialStrength, targetStrength, timeElapsed / duration);
-            SetGravityStrength(currentStrength);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
+    //    while (timeElapsed < duration)
+    //    {
+    //        float currentStrength = Mathf.Lerp(initialStrength, targetStrength, timeElapsed / duration);
+    //        SetGravityStrength(currentStrength);
+    //        timeElapsed += Time.deltaTime;
+    //        yield return null;
+    //    }
 
-        SetGravityStrength(targetStrength);
-    }
+    //    SetGravityStrength(targetStrength);
+    //}
 
-    public void SetGravityStrength(float strength)
-    {
-        Physics.gravity = gravityDir[gravityDirIndex].normalized * strength;
-    }
+    //public void SetGravityStrength(float strength)
+    //{
+    //    Physics.gravity = gravityDir[gravityDirIndex].normalized * strength;
+    //}
 
-    public float GetGravityStrength()
-    {
-        return Physics.gravity.magnitude;
-    }
+    //public float GetGravityStrength()
+    //{
+    //    return Physics.gravity.magnitude;
+    //}
 
 }
