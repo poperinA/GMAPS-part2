@@ -438,6 +438,7 @@ GameObject:
   - component: {fileID: 671351697}
   - component: {fileID: 671351698}
   - component: {fileID: 671351699}
+  - component: {fileID: 671351700}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -475,6 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravitySwitch: {fileID: 671351699}
+  gravityStrength: {fileID: 671351700}
 --- !u!54 &671351697
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -544,6 +546,23 @@ MonoBehaviour:
   - {x: -9.81, y: 0, z: 0}
   - {x: 9.81, y: 0, z: 0}
   gravityDirIndex: 0
+--- !u!114 &671351700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671351692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77319c2cd6508c54a907d4daf6c333a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravitySwitch: {fileID: 671351699}
+  gravityStrength: 9.81
+  maxGravityStrength: 20
+  gravityChangeDuration: 20
+  currentStrength: 0
 --- !u!1 &993028497
 GameObject:
   m_ObjectHideFlags: 0
