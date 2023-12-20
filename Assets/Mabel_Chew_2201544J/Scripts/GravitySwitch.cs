@@ -5,22 +5,15 @@ using UnityEngine;
 
 public class GravitySwitch : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
 
     //array of vectors with different directions of gravity implemented
     public Vector3[] gravityDir = { Vector3.down, Vector3.up, Vector3.right, Vector3.left };
     public int gravityDirIndex = 0;
     
-
-    void Start()
-    {
-        
-    }
     // Update is called once per frame
     void Update()
     {
         
-
         //check for input for letter Q
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -36,37 +29,36 @@ public class GravitySwitch : MonoBehaviour
         //loop through every gravity
         gravityDirIndex = (gravityDirIndex + 1) % gravityDir.Length;
 
-        //debug
-        Debug.Log($"Switching gravity to: {gravityDir[gravityDirIndex]}");
-        DebugExtension.DebugArrow(transform.position, gravityDir[gravityDirIndex], 10f);
+        //debug to find out which direction the gravity is pointing
+        Debug.Log("gravity direction:" + gravityDir[gravityDirIndex]);
 
         //set the new gravity direction
         Physics.gravity = gravityDir[gravityDirIndex];
 
-        
-
         //implement a rotation during the switching
-        StartCoroutine(RotateToGravity(-Physics.gravity.normalized, 5f));
+        StartCoroutine(RotateToGravity(-Physics.gravity.normalized));
         
-        //rotate the player 
-        //RotateDir(-Physics.gravity.normalized);
-
     }
 
-    IEnumerator RotateToGravity(Vector3 targetDirection, float duration)
+    //rotate smoothly to the target direction
+    IEnumerator RotateToGravity(Vector3 targetDirection)
     {
-        //start rotation of the capsule
+        //initial rotation of the capsule
         Quaternion startRotation = transform.rotation;
-        //target rotation of the capsule
+        //finds the target rotation of the capsule using the initial up direction and the targeted direction
         Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, targetDirection);
 
         float timeElapsed = 0f;
         float totalLerpTime = 1f;
 
+        //while loop that loops over a period of time (lerp time)
         while (timeElapsed < totalLerpTime)
         {
+            //slerp for a smoother rotation between the 2 points
+            //interpolate using the ratio of the time
             transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / totalLerpTime);
 
+            //increase the time for every frame
             timeElapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
@@ -75,16 +67,5 @@ public class GravitySwitch : MonoBehaviour
         transform.rotation = targetRotation;
         
     }
-
-    //public void RotateDir(Vector3 gravityDir)
-    //{
-
-    //    //capsule's up dir must be equal to the opposite gravity direction
-    //    transform.up = -gravityDir;
-
-    //    //cross product of the gravity direction and the world up direction
-    //    Vector3 forwardDir = Vector3.Cross(gravityDir, Vector3.up);
-    //    transform.forward = forwardDir;
-    //}
 
 }
