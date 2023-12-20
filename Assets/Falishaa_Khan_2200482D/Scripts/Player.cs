@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        rb.freezeRotation = true; //so the player doesnt topple over
     }
 
     void Update()
@@ -52,8 +52,6 @@ public class Player : MonoBehaviour
             rb.AddForce(transform.up * 90000 * JumpHeight * Time.deltaTime);
         }
 
-
-
         //ground control
 
         RaycastHit hit = new RaycastHit();
@@ -62,6 +60,7 @@ public class Player : MonoBehaviour
             distanceToGround = hit.distance;
             Groundnormal = hit.normal;
 
+            //check if player is on the ground
             if (distanceToGround <= 0.2f) 
             {
                 OnGround = true;
@@ -79,7 +78,7 @@ public class Player : MonoBehaviour
 
         if (OnGround == false)
         {
-            rb.AddForce(gravDirection * -gravity);
+            rb.AddForce(gravDirection * -gravity); //apply gravitational force
         }
 
         Quaternion toRotation = Quaternion.FromToRotation(transform.up, Groundnormal) * transform.rotation;
@@ -92,16 +91,23 @@ public class Player : MonoBehaviour
     {
         if (collision.transform != Planet.transform)
         {
+            //update current planet
             Planet = collision.transform.gameObject;
 
+            //calculate the new gravitational direction
             Vector3 gravDirection = (transform.position - Planet.transform.position).normalized;
 
+            //adjust the player's rotation to align with the new gravitational direction
             Quaternion toRotation = Quaternion.FromToRotation(transform.up, gravDirection) * transform.rotation;
             transform.rotation = toRotation;
 
+            //stop current velocity
             rb.velocity = Vector3.zero;
+
+            //apply gravitational force towards the new planet
             rb.AddForce(gravDirection * gravity);
 
+            //inform the placeholder script about the new planet
             PlayerPlaceHolder.GetComponent<PlayerPlaceholder>().NewPlanet(Planet);
         }
     }
