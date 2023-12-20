@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public GravitySwitch gravitySwitch;
-    public GravityStrength gravityStrengthScript;
+    public GravityStrength gravityStrength;
     Rigidbody rb;
 
     float speed = 2f;
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     float vertical;
     float horizontal;
 
-    float gravityStrength = 9.81f;
+    //float gravityStrength = 9.81f;
 
     private Vector3 moveDir;
 
@@ -27,10 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
   
     private Vector3 currentGravityDir;
-
-    private float holdJumpTime;
-    private float jumpTime;
-    private bool isJumping;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -50,25 +47,18 @@ public class PlayerMovement : MonoBehaviour
 
 
         //gravity force
-        rb.AddForce(currentGravityDir * gravityStrength, ForceMode.Acceleration);
+        rb.AddForce(currentGravityDir * gravityStrength.currentStrength, ForceMode.Acceleration);
 
 
         //checks for input and capsule is touching the ground
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            isJumping = true;
-            holdJumpTime = jumpTime;
-            Jump();         
-        }
-        if(Input.GetKey(KeyCode.Space) && isJumping == true)
-        {
-            if (holdJumpTime > 0)
-            {
-                Debug.Log("space is pressed");
-                Jump();
-                holdJumpTime -= Time.deltaTime;
-            }
-        }
+        //if (Input.GetButtonDown("Jump") && IsGrounded())
+        //    {
+        //        Debug.Log("space is pressed");
+        //        Jump();
+        //        StopCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
+        //    }
+
+
     }
 
     void Move()
@@ -118,9 +108,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        Debug.Log(gravityStrength);
+        //start coroutine of gravity strength
+        StartCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
+        Debug.Log(gravityStrength.currentStrength);
         //using suvat equation for the jump
-        float jumpForce = Mathf.Sqrt(2 * gravityStrength * height);
+        float jumpForce = Mathf.Sqrt(2 * gravityStrength.GetGravityStrength() * height);
 
         //jump force in the opposite direction of gravity
         rb.AddForce(-currentGravityDir * jumpForce, ForceMode.Impulse);
