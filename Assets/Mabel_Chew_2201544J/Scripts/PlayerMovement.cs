@@ -7,7 +7,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public GravitySwitch gravitySwitch;
-    public GravityStrength gravityStrength;
     Rigidbody rb;
 
     float speed = 2f;
@@ -38,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
 
-    void Update()
+    void FixedUpdate()
     {
         Move();
 
@@ -47,17 +46,15 @@ public class PlayerMovement : MonoBehaviour
 
 
         //gravity force
-        rb.AddForce(currentGravityDir * gravityStrength.currentStrength, ForceMode.Acceleration);
+        rb.AddForce(currentGravityDir * gravitySwitch.GetGravityStrength(), ForceMode.Acceleration);
 
 
         //checks for input and capsule is touching the ground
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButton("Jump") && IsGrounded())
         {
             Debug.Log("space is pressed");
             Jump();
-            StopCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
         }
-
 
     }
 
@@ -109,10 +106,10 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
         //start coroutine of gravity strength
-        StartCoroutine(gravityStrength.ChangeGravityStrength(gravityStrength.maxGravityStrength, gravityStrength.gravityChangeDuration));
-        Debug.Log(gravityStrength.currentStrength);
+        StartCoroutine(gravitySwitch.ChangeGravityStrength(gravitySwitch.maxGravityStrength, gravitySwitch.gravityChangeDuration));
+
         //using suvat equation for the jump
-        float jumpForce = Mathf.Sqrt(2 * gravityStrength.GetGravityStrength() * height);
+        float jumpForce = Mathf.Sqrt(2 * gravitySwitch.GetGravityStrength() * height);
 
         //jump force in the opposite direction of gravity
         rb.AddForce(-currentGravityDir * jumpForce, ForceMode.Impulse);
