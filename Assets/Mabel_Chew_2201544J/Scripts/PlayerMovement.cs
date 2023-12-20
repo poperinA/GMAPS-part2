@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     float vertical;
     float horizontal;
 
-    //float gravityStrength = 9.81f;
+    float gravityStrength = 9.81f;
 
     private Vector3 moveDir;
 
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //gravity force
-        rb.AddForce(currentGravityDir * gravitySwitch.GetGravityStrength(), ForceMode.Acceleration);
+        rb.AddForce(currentGravityDir * gravityStrength, ForceMode.Acceleration);
 
 
         //checks for input and capsule is touching the ground
@@ -105,11 +105,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        //start coroutine of gravity strength
-        StartCoroutine(gravitySwitch.ChangeGravityStrength(gravitySwitch.maxGravityStrength, gravitySwitch.gravityChangeDuration));
 
         //using suvat equation for the jump
-        float jumpForce = Mathf.Sqrt(2 * gravitySwitch.GetGravityStrength() * height);
+        float jumpForce = Mathf.Sqrt(2 * gravityStrength * height);
 
         //jump force in the opposite direction of gravity
         rb.AddForce(-currentGravityDir * jumpForce, ForceMode.Impulse);
