@@ -76,15 +76,15 @@ public class GravitySwitch : MonoBehaviour
         
     }
 
-    public void RotateDir(Vector3 gravityDir)
-    {
+    //public void RotateDir(Vector3 gravityDir)
+    //{
 
-        //capsule's up dir must be equal to the opposite gravity direction
-        transform.up = -gravityDir;
+    //    //capsule's up dir must be equal to the opposite gravity direction
+    //    transform.up = -gravityDir;
 
-        //cross product of the gravity direction and the world up direction
-        Vector3 forwardDir = Vector3.Cross(gravityDir, Vector3.up);
-        transform.forward = forwardDir;
-    }
+    //    //cross product of the gravity direction and the world up direction
+    //    Vector3 forwardDir = Vector3.Cross(gravityDir, Vector3.up);
+    //    transform.forward = forwardDir;
+    //}
 
 }

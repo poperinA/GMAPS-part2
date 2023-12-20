@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public GravitySwitch gravitySwitch;
+    public GravityStrength gravityStrengthScript;
     Rigidbody rb;
 
     float speed = 2f;
@@ -26,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
   
     private Vector3 currentGravityDir;
+
+    bool jumpHold = false;
+
     
 
     // Start is called before the first frame update
@@ -48,14 +52,22 @@ public class PlayerMovement : MonoBehaviour
         //gravity force
         rb.AddForce(currentGravityDir * gravityStrength, ForceMode.Acceleration);
 
+        
+    }
 
-        //checks for input and capsule is touching the ground
-        if (Input.GetButton("Jump") && IsGrounded())
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Debug.Log("space is pressed");
+            gravityStrengthScript.ChangeGravityStrength();
+            Debug.Log($"Current gravity strength: {gravityStrengthScript.currentGravityStrength}");
+            
+        }
+        if(Input.GetButtonUp("Jump") && IsGrounded())
+        {
             Jump();
         }
-
     }
 
     void Move()
@@ -105,12 +117,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        if(gravityStrengthScript.currentGravityStrength > 0f && IsGrounded())
+        {
+            //using suvat equation for the jump
+            float jumpForce = Mathf.Sqrt(2 * gravityStrengthScript.currentGravityStrength * height);
 
-        //using suvat equation for the jump
-        float jumpForce = Mathf.Sqrt(2 * gravityStrength * height);
+            //jump force in the opposite direction of gravity
+            rb.AddForce(-currentGravityDir * jumpForce, ForceMode.Impulse);
 
-        //jump force in the opposite direction of gravity
-        rb.AddForce(-currentGravityDir * jumpForce, ForceMode.Impulse);
+            Debug.Log("Jump");
+            gravityStrengthScript.ResetGravityStrength();
+        }
+        
     }
 
 
