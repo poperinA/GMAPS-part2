@@ -27,10 +27,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
   
     private Vector3 currentGravityDir;
+<<<<<<< HEAD
 
     private float holdJumpTime;
     private float jumpTime;
     private bool isJumping;
+=======
+    private float bwRotateSpeed = 0.1f;
+>>>>>>> parent of 2b08059 (starting on gravity strength)
 
     // Start is called before the first frame update
     void Start()
