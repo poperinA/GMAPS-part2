@@ -115,8 +115,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        //only jump when gravity strength is more than 0 and is touching the ground
-        if(gravityStrengthScript.currentGravityStrength > 0f && IsGrounded())
+        //only jump when is touching the ground
+        if(IsGrounded())
         {
             //using suvat equation for the jump (v^2 = u^2 + 2as)
             float jumpForce = Mathf.Sqrt(2 * gravityStrengthScript.currentGravityStrength * height);
